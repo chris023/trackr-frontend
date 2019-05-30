@@ -4,7 +4,7 @@ import { Switch, Redirect, Route } from 'react-router-dom'
 import { withStyles } from '@material-ui/core'
 
 import { Auth, Home } from './paths'
-import { AuthRoute } from './components'
+import { AuthRoute, Notifications } from './components'
 
 const styles = theme => ({
   root: {
@@ -16,13 +16,16 @@ const styles = theme => ({
 
 const App = ({ classes }) => {
   return (
-    <div className={classes.root}>
-      <Switch>
-        <Route path="/auth" component={Auth} />
-        <AuthRoute path="/home" component={Home} />
-        <Redirect to="/auth/login" />
-      </Switch>
-    </div>
+    <React.Fragment>
+      <div className={classes.root}>
+        <Switch>
+          <Route path="/auth" component={Auth} />
+          <AuthRoute path="/home" component={Home} />
+          <Redirect to="/auth/login" />
+        </Switch>
+      </div>
+      <Notifications />
+    </React.Fragment>
   )
 }
 

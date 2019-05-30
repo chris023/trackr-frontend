@@ -1,3 +1,4 @@
 import * as user from './user'
+import * as notifications from './notifications'
 
-export { user }
+export { notifications, user }
