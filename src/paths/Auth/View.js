@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core'
 import { Redirect, Route, Switch } from 'react-router-dom'
 
-import Login from './Login'
+import { Login, Register } from './'
 
 const styles = () => ({
   root: {
@@ -19,6 +19,7 @@ const View = ({ classes, match }) => {
     <div className={classes.root}>
       <Switch>
         <Route path={match.url + '/login'} component={Login} />
+        <Route path={match.url + '/register'} component={Register} />
         <Redirect to="/auth/login" />
       </Switch>
     </div>
