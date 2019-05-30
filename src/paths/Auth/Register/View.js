@@ -1,6 +1,9 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
+import { withApollo } from 'react-apollo'
+import { connect } from 'react-redux'
+import { compose } from 'recompose'
 import {
   Button,
   Divider,
@@ -10,6 +13,9 @@ import {
   withStyles,
 } from '@material-ui/core'
 import ChevronRightIcon from '@material-ui/icons/ChevronRight'
+
+import { REGISTER } from '../../../util/apollo/queries/authentication'
+import { user } from '../../../util/redux/actions'
 
 const styles = theme => ({
   root: {
@@ -26,12 +32,12 @@ const styles = theme => ({
     marginTop: theme.spacing.unit,
   },
   submitButton: {
-    letterSpacing: 0.5,
-    fontWeight: 700,
     margin: `${theme.spacing.unit * 2}px 0`,
     width: '100%',
   },
   submitText: {
+    letterSpacing: 0.5,
+    fontWeight: 700,
     color: theme.palette.primary.contrastText,
   },
   textField: {
@@ -39,14 +45,33 @@ const styles = theme => ({
   },
 })
 
-const Register = ({ classes }) => {
+const Register = ({ classes, client, history, setUserToken }) => {
   const [state, setState] = useState({
-    login: '',
+    username: '',
     email: '',
     password: '',
   })
 
-  const handleSubmit = e => e.preventDefault
+  const handleSubmit = async e => {
+    e.preventDefault()
+
+    const token = await client
+      .mutate({
+        mutation: REGISTER,
+        variables: {
+          username: state.username,
+          email: state.email,
+          password: state.password,
+        },
+      })
+      .then(({ data }) => data.signUp.token)
+      .catch(e => alert(e))
+
+    if (token) {
+      setUserToken(token)
+      history.push('/home')
+    }
+  }
 
   const changeHandler = ({ target }) =>
     setState(prev => ({ ...prev, [target.name]: target.value }))
@@ -74,7 +99,7 @@ const Register = ({ classes }) => {
           variant="outlined"
           required
           className={classes.textField}
-          value={state.username}
+          value={state.email}
           onChange={changeHandler}
         />
         <TextField
@@ -112,6 +137,20 @@ const Register = ({ classes }) => {
 
 Register.propTypes = {
   classes: PropTypes.object,
+  client: PropTypes.object,
+  history: PropTypes.object,
+  setUserToken: PropTypes.func,
 }
 
-export default withStyles(styles)(Register)
+const mapDispatchToProps = dispatch => ({
+  setUserToken: token => dispatch(user.setToken(token)),
+})
+
+export default compose(
+  withStyles(styles),
+  connect(
+    null,
+    mapDispatchToProps
+  ),
+  withApollo
+)(Register)

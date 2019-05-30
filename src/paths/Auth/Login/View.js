@@ -1,6 +1,9 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
+import { withApollo } from 'react-apollo'
+import { connect } from 'react-redux'
+import { compose } from 'recompose'
 import {
   Button,
   Divider,
@@ -10,6 +13,9 @@ import {
   withStyles,
 } from '@material-ui/core'
 import ChevronRightIcon from '@material-ui/icons/ChevronRight'
+
+import { LOGIN } from '../../../util/apollo/queries/authentication'
+import { user } from '../../../util/redux/actions'
 
 const styles = theme => ({
   root: {
@@ -26,12 +32,12 @@ const styles = theme => ({
     marginTop: theme.spacing.unit,
   },
   submitButton: {
-    letterSpacing: 0.5,
-    fontWeight: 700,
     margin: `${theme.spacing.unit * 2}px 0`,
     width: '100%',
   },
   submitText: {
+    letterSpacing: 0.5,
+    fontWeight: 700,
     color: theme.palette.primary.contrastText,
   },
   textField: {
@@ -39,16 +45,35 @@ const styles = theme => ({
   },
 })
 
-const Login = ({ classes }) => {
+const Login = ({ classes, client, history, setUserToken }) => {
   const [state, setState] = useState({
     login: '',
     password: '',
   })
 
-  const handleSubmit = e => e.preventDefault
+  const handleSubmit = async e => {
+    e.preventDefault()
 
-  const changeHandler = ({ target }) =>
+    const token = await client
+      .mutate({
+        mutation: LOGIN,
+        variables: {
+          login: state.login,
+          password: state.password,
+        },
+      })
+      .then(({ data }) => data.signIn.token)
+      .catch(e => alert(e))
+
+    if (token) {
+      setUserToken(token)
+      history.push('/home')
+    }
+  }
+
+  const changeHandler = ({ target }) => {
     setState(prev => ({ ...prev, [target.name]: target.value }))
+  }
 
   return (
     <Paper className={classes.root}>
@@ -58,12 +83,12 @@ const Login = ({ classes }) => {
         </div>
         <TextField
           label="Username"
-          name="username"
+          name="login"
           margin="normal"
           variant="outlined"
           required
           className={classes.textField}
-          value={state.username}
+          value={state.login}
           onChange={changeHandler}
         />
         <TextField
@@ -101,6 +126,20 @@ const Login = ({ classes }) => {
 
 Login.propTypes = {
   classes: PropTypes.object,
+  client: PropTypes.object,
+  history: PropTypes.object,
+  setUserToken: PropTypes.func,
 }
 
-export default withStyles(styles)(Login)
+const mapDispatchToProps = dispatch => ({
+  setUserToken: token => dispatch(user.setToken(token)),
+})
+
+export default compose(
+  withStyles(styles),
+  connect(
+    null,
+    mapDispatchToProps
+  ),
+  withApollo
+)(Login)
