@@ -2,7 +2,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Paper, withStyles } from '@material-ui/core'
 
-const styles = () => ({})
+const styles = () => ({
+  paper: {
+    width: 350,
+  },
+})
 
 const Login = ({ classes }) => {
   return <Paper className={classes.paper}>Login</Paper>

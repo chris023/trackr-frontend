@@ -18,7 +18,7 @@ const App = ({ classes }) => {
   return (
     <div className={classes.root}>
       <Switch>
-        <Route exact path="/auth/login" component={Auth} />
+        <Route path="/auth" component={Auth} />
         <AuthRoute path="/home" component={Home} />
         <Redirect to="/auth/login" />
       </Switch>
