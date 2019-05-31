@@ -1,27 +1,191 @@
 import React, { useState, useEffect } from 'react'
+import clsx from 'clsx'
 import PropTypes from 'prop-types'
 import { compose } from 'recompose'
 import { connect } from 'react-redux'
-import { Snackbar, withStyles } from '@material-ui/core'
+import {
+  IconButton,
+  Snackbar,
+  SnackbarContent,
+  withStyles,
+} from '@material-ui/core'
 
-const styles = () => ({})
+import InfoIcon from '@material-ui/icons/Info'
+import ErrorIcon from '@material-ui/icons/Error'
+import CloseIcon from '@material-ui/icons/Close'
+import WarningIcon from '@material-ui/icons/Warning'
+import CheckCircleIcon from '@material-ui/icons/CheckCircle'
 
-const Notifications = ({ classes, message }) => {
+import red from '@material-ui/core/colors/red'
+import grey from '@material-ui/core/colors/grey'
+import green from '@material-ui/core/colors/green'
+import amber from '@material-ui/core/colors/amber'
+
+const styles = theme => ({
+  success: {
+    backgroundColor: green[600],
+  },
+  error: {
+    backgroundColor: red[600],
+  },
+  info: {
+    backgroundColor: grey[800],
+  },
+  warning: {
+    backgroundColor: amber[700],
+  },
+  icon: {
+    fontSize: 20,
+  },
+  iconVariant: {
+    opacity: 0.9,
+    marginRight: theme.spacing.unit,
+  },
+  message: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+})
+
+const variantIcon = {
+  success: CheckCircleIcon,
+  warning: WarningIcon,
+  error: ErrorIcon,
+  info: InfoIcon,
+}
+
+const SnackbarContentWrapper = withStyles(styles)(
+  ({ classes, className, message, onClose, variant, ...other }) => {
+    const Icon = variantIcon[variant]
+
+    return (
+      <SnackbarContent
+        className={clsx(classes[variant], className)}
+        message={
+          <span className={classes.message}>
+            <Icon className={clsx(classes.icon, classes.iconVariant)} />
+            {message}
+          </span>
+        }
+        action={[
+          <IconButton key="close" color="inherit" onClick={onClose}>
+            <CloseIcon className={classes.icon} />
+          </IconButton>,
+        ]}
+        {...other}
+      />
+    )
+  }
+)
+
+SnackbarContentWrapper.propTypes = {
+  classes: PropTypes.object,
+  className: PropTypes.string,
+  message: PropTypes.string,
+  onClose: PropTypes.func,
+  variant: PropTypes.oneOf(['success', 'warning', 'error', 'info']).isRequired,
+  other: PropTypes.object,
+}
+
+const Notifications = ({ message }) => {
   const [open, setOpen] = useState(!!message.body)
   const closeSnackbar = () => setOpen(false)
 
-  useEffect(() => setOpen(!!message.body), [message])
+  useEffect(() => {
+    setOpen(!!message.body)
+  }, [message])
 
-  return (
-    <Snackbar
-      key={message.body}
-      open={open}
-      autoHideDuration={message.duration || 2000}
-      onClose={closeSnackbar}
-      message={message.body}
-      classes={classes.snackbar}
-    />
-  )
+  //
+  // Set to true to style snackbars
+  //
+  const styling = false
+
+  if (!styling && message && message.body)
+    return (
+      <Snackbar
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'center',
+        }}
+        open={open}
+        autoHideDuration={3000}
+        onClose={closeSnackbar}
+      >
+        <SnackbarContentWrapper
+          onClose={closeSnackbar}
+          variant={message.variant || 'info'}
+          message={message.body}
+        />
+      </Snackbar>
+    )
+
+  if (styling)
+    return (
+      <>
+        <Snackbar
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'left',
+          }}
+          open={true}
+          autoHideDuration={3000000}
+          onClose={closeSnackbar}
+        >
+          <SnackbarContentWrapper
+            onClose={closeSnackbar}
+            variant={'info'}
+            message={'INFO sample-message'}
+          />
+        </Snackbar>
+        <Snackbar
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'right',
+          }}
+          open={true}
+          autoHideDuration={3000000}
+          onClose={closeSnackbar}
+        >
+          <SnackbarContentWrapper
+            onClose={closeSnackbar}
+            variant={'success'}
+            message={'SUCCESS sample-message'}
+          />
+        </Snackbar>
+        <Snackbar
+          anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'right',
+          }}
+          open={true}
+          autoHideDuration={3000000}
+          onClose={closeSnackbar}
+        >
+          <SnackbarContentWrapper
+            onClose={closeSnackbar}
+            variant={'warning'}
+            message={'WARNING sample-message'}
+          />
+        </Snackbar>
+        <Snackbar
+          anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'left',
+          }}
+          open={true}
+          autoHideDuration={3000000}
+          onClose={closeSnackbar}
+        >
+          <SnackbarContentWrapper
+            onClose={closeSnackbar}
+            variant={'error'}
+            message={'ERROR sample-message'}
+          />
+        </Snackbar>{' '}
+      </>
+    )
+
+  return null
 }
 
 Notifications.propTypes = {

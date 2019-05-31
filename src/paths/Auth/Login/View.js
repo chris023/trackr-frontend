@@ -45,7 +45,7 @@ const styles = theme => ({
   },
 })
 
-const Login = ({ classes, client, history, notify, setUserToken }) => {
+const Login = ({ classes, client, history, notifications, setUserToken }) => {
   const [state, setState] = useState({
     login: '',
     password: '',
@@ -64,12 +64,12 @@ const Login = ({ classes, client, history, notify, setUserToken }) => {
       })
       .then(({ data }) => data.signIn.token)
       .catch(e => {
-        notify({ body: e.message })
+        notifications.notify(e.message)
       })
 
     if (token) {
       setUserToken(token)
-      notify({ body: 'Successful Login' })
+      notifications.notifySuccess('Successful Login')
       history.push('/home')
     }
   }
@@ -131,13 +131,18 @@ Login.propTypes = {
   classes: PropTypes.object,
   client: PropTypes.object,
   history: PropTypes.object,
-  notify: PropTypes.func,
+  notifications: PropTypes.object,
   setUserToken: PropTypes.func,
 }
 
 const mapDispatchToProps = dispatch => ({
   setUserToken: token => dispatch(user.setToken(token)),
-  notify: message => dispatch(notifications.notify(message)),
+  notifications: {
+    notify: message => dispatch(notifications.notify(message)),
+    notifySuccess: message => dispatch(notifications.notifySuccess(message)),
+    notifyError: message => dispatch(notifications.notifyError(message)),
+    notifyWarning: message => dispatch(notifications.notifyWarning(message)),
+  },
 })
 
 export default compose(
