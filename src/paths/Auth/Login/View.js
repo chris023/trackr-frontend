@@ -64,7 +64,7 @@ const Login = ({ classes, client, history, notifications, setUserToken }) => {
       })
       .then(({ data }) => data.signIn.token)
       .catch(e => {
-        notifications.notify(e.message)
+        notifications.notifyError(e.message)
       })
 
     if (token) {
