@@ -9,30 +9,25 @@ import {
   SnackbarContent,
   withStyles,
 } from '@material-ui/core'
-
-import InfoIcon from '@material-ui/icons/Info'
-import ErrorIcon from '@material-ui/icons/Error'
-import CloseIcon from '@material-ui/icons/Close'
-import WarningIcon from '@material-ui/icons/Warning'
+import { red, grey, green, yellow } from '@material-ui/core/colors'
 import CheckCircleIcon from '@material-ui/icons/CheckCircle'
-
-import red from '@material-ui/core/colors/red'
-import grey from '@material-ui/core/colors/grey'
-import green from '@material-ui/core/colors/green'
-import amber from '@material-ui/core/colors/amber'
+import WarningIcon from '@material-ui/icons/Warning'
+import CloseIcon from '@material-ui/icons/Close'
+import ErrorIcon from '@material-ui/icons/Error'
+import InfoIcon from '@material-ui/icons/Info'
 
 const styles = theme => ({
   success: {
     backgroundColor: green[600],
   },
   error: {
-    backgroundColor: red[600],
+    backgroundColor: red[500],
   },
   info: {
     backgroundColor: grey[800],
   },
   warning: {
-    backgroundColor: amber[700],
+    backgroundColor: yellow[800],
   },
   icon: {
     fontSize: 20,
