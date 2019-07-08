@@ -1,4 +1,5 @@
 import AuthRoute from './authroute'
-import Notifications from './notifications'
+import Map from './map'
+import UserInterface from './userinterface'
 
-export { AuthRoute, Notifications }
+export { AuthRoute, Map, UserInterface }
