@@ -4,7 +4,8 @@ import { Switch, Redirect, Route } from 'react-router-dom'
 import { withStyles } from '@material-ui/core'
 
 import { Auth, Home } from './paths'
-import { AuthRoute, Notifications } from './components'
+import { AuthRoute } from './components'
+import { Notifications } from './util/notifications'
 
 const styles = theme => ({
   root: {
