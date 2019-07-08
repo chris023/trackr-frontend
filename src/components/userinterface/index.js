@@ -14,7 +14,7 @@ const styles = () => ({
 })
 
 const UserInterface = ({ classes, children }) => {
-  const [open, setOpen] = useState(true)
+  const [open, setOpen] = useState(false)
 
   const closeDrawer = () => setOpen(false)
   const toggleDrawer = () => setOpen(prev => !prev)
