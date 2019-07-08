@@ -15,7 +15,8 @@ import {
 import ChevronRightIcon from '@material-ui/icons/ChevronRight'
 
 import { LOGIN } from '../../../util/apollo/queries/authentication'
-import { notifications, user } from '../../../util/redux/actions'
+import withNotifications from '../../../util/notifications'
+import { user } from '../../../util/redux/actions'
 
 const styles = theme => ({
   root: {
@@ -69,7 +70,13 @@ const Login = ({ classes, client, history, notifications, setUserToken }) => {
 
     if (token) {
       setUserToken(token)
-      notifications.notifySuccess('Successful Login')
+
+      let stored = sessionStorage.getItem('theoTracker')
+      stored = stored ? JSON.parse(stored) : {}
+      stored.token = token
+      sessionStorage.setItem('theoTracker', JSON.stringify(stored))
+
+      notifications.notifySuccess('Logged In Successfully')
       history.push('/home')
     }
   }
@@ -137,15 +144,10 @@ Login.propTypes = {
 
 const mapDispatchToProps = dispatch => ({
   setUserToken: token => dispatch(user.setToken(token)),
-  notifications: {
-    notify: message => dispatch(notifications.notify(message)),
-    notifySuccess: message => dispatch(notifications.notifySuccess(message)),
-    notifyError: message => dispatch(notifications.notifyError(message)),
-    notifyWarning: message => dispatch(notifications.notifyWarning(message)),
-  },
 })
 
 export default compose(
+  withNotifications,
   withStyles(styles),
   connect(
     null,

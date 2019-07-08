@@ -14,6 +14,7 @@ import {
 } from '@material-ui/core'
 import ChevronRightIcon from '@material-ui/icons/ChevronRight'
 
+import withNotifications from '../../../util/notifications/withNotifications'
 import { REGISTER } from '../../../util/apollo/queries/authentication'
 import { user } from '../../../util/redux/actions'
 
@@ -69,6 +70,12 @@ const Register = ({ classes, client, history, setUserToken }) => {
 
     if (token) {
       setUserToken(token)
+
+      let stored = sessionStorage.getItem('theoTracker')
+      stored = stored ? JSON.parse(stored) : {}
+      stored.token = token
+      sessionStorage.setItem('theoTracker', JSON.stringify(stored))
+
       history.push('/home')
     }
   }
@@ -147,6 +154,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 export default compose(
+  withNotifications,
   withStyles(styles),
   connect(
     null,
