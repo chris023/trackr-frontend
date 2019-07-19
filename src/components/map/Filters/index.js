@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
+import clsx from 'clsx'
 import { withStyles } from '@material-ui/core'
 import SearchIcon from '@material-ui/icons/Search'
+import ChevronRightIcon from '@material-ui/icons/ChevronRight'
 
-import Panel from './Panel'
+import SearchInput from './SearchInput'
 
 const styles = () => ({
   root: {
@@ -17,6 +19,7 @@ const styles = () => ({
     display: 'flex',
     height: 40,
     justifyContent: 'center',
+    // left: 10,
     margin: 10,
     position: 'absolute',
     right: 50,
@@ -26,21 +29,37 @@ const styles = () => ({
       color: '#333333',
     },
   },
-  searchIcon: {},
+  closeSearch: {
+    visibility: 'hidden',
+    width: 0,
+  },
+  closeSearchVisible: {
+    width: '100%',
+  },
+  open: {
+    width: 300,
+  },
+  searchIcon: {
+    margin: 16,
+  },
 })
 
 const Filters = ({ classes }) => {
   const [open, setOpen] = useState(false)
 
-  const openFiltersPanel = () => setOpen(true)
-  const closeFiltersPanel = () => setOpen(false)
+  const openOrSearch = () => {
+    setOpen(true)
+  }
 
   return (
     <>
-      <div className={classes.root}>
-        <SearchIcon onClick={openFiltersPanel} className={classes.searchIcon} />
+      <div className={clsx(open && classes.open, classes.root)}>
+        <div className={classes.closeSearch}>
+          <ChevronRightIcon />
+        </div>
+        <SearchIcon onClick={openOrSearch} className={classes.searchIcon} />
+        <SearchInput open={open} />
       </div>
-      <Panel open={open} closeFiltersPanel={closeFiltersPanel} />
     </>
   )
 }

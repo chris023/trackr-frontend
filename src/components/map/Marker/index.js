@@ -16,6 +16,7 @@ const styles = () => ({
   },
   marker: {
     backgroundColor: 'red',
+    borderRadius: 2,
     height: 10,
     width: 10,
     position: 'relative',

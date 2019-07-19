@@ -28,7 +28,7 @@ const InfoBox = ({ classes, open, setOpen }) => {
           <Typography noWrap>ID: 12349073</Typography>
           <Typography noWrap>Type: Crate</Typography>
           <Typography noWrap>Updated: July 08, 2019 4:44PM</Typography>
-          <Link>
+          <Link to={'/assets'}>
             <Typography noWrap>Details</Typography>
           </Link>
         </Paper>

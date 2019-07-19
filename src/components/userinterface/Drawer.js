@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { compose } from 'recompose'
 import {
   Drawer,
   Divider,
@@ -10,11 +11,13 @@ import {
   withStyles,
 } from '@material-ui/core'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
+import { withRouter } from 'react-router-dom'
 
 const styles = theme => ({
   drawer: {
-    width: 240,
     flexShrink: 0,
+    easing: theme.transitions.easing.easeOut,
+    transition: theme.transitions.duration.enteringScreen,
   },
   drawerHeader: {
     alignItems: 'center',
@@ -23,33 +26,36 @@ const styles = theme => ({
     height: theme.mixins.toolbar.minHeight + 8,
     padding: `0 ${theme.spacing.unit * 2}px`,
   },
+  drawerPaper: {
+    width: 240,
+    zIndex: theme.zIndex.appBar - 1,
+  },
 })
 
-// eslint-disable-next-line no-unused-vars
-const Header = ({ classes, open, closeDrawer }) => {
+const MyDrawer = ({ classes, history, open, toggleDrawer }) => {
+  const goTo = path => () => {
+    toggleDrawer()
+    history.push('/' + path)
+  }
+
   return (
     <Drawer
-      PaperProps={{
-        style: {
-          zIndex: 1099,
-          width: 240,
-        },
-      }}
       open={open}
-      onClose={closeDrawer}
-      // variant="persistent"
-      className={classes.drawer}
+      onClose={toggleDrawer}
+      classes={{
+        paper: classes.drawerPaper,
+      }}
     >
       <div className={classes.drawerHeader}>
-        <IconButton onClick={closeDrawer}>
+        <IconButton onClick={toggleDrawer}>
           <ChevronLeftIcon />
         </IconButton>
       </div>
       <Divider />
       <div className={classes.list}>
         <List>
-          {['Home', 'Inspections', 'Stuff', 'More Stuff'].map(text => (
-            <ListItem button key={text}>
+          {['Home', 'Assets', 'Trackers'].map(text => (
+            <ListItem button onClick={goTo(text)} key={text}>
               <ListItemText primary={text} />
             </ListItem>
           ))}
@@ -59,8 +65,14 @@ const Header = ({ classes, open, closeDrawer }) => {
   )
 }
 
-Header.propTypes = {
+MyDrawer.propTypes = {
   classes: PropTypes.object,
+  history: PropTypes.object,
+  open: PropTypes.bool,
+  toggleDrawer: PropTypes.func,
 }
 
-export default withStyles(styles)(Header)
+export default compose(
+  withStyles(styles),
+  withRouter
+)(MyDrawer)

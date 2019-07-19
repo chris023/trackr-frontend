@@ -10,6 +10,11 @@ const Theme = createMuiTheme({
         textTransform: 'none',
       },
     },
+    MuiTableRow: {
+      root: {
+        cursor: 'pointer',
+      },
+    },
   },
   props: {
     MuiTextField: {

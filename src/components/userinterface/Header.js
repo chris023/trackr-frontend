@@ -20,6 +20,7 @@ const styles = theme => ({
     height: '100%',
     width: '100%',
   },
+  appBar: {},
   content: {
     alignItems: 'center',
     display: 'flex',
@@ -34,11 +35,11 @@ const styles = theme => ({
   menuIcon: {},
 })
 
-const Header = ({ classes, open, toggleDrawer }) => {
+const Header = ({ classes, toggleDrawer }) => {
   return (
     <>
       <div className={classes.filler} />
-      <AppBar>
+      <AppBar className={classes.appBar}>
         <Toolbar>
           <div className={classes.root}>
             <div className={classes.content}>
@@ -63,6 +64,7 @@ const Header = ({ classes, open, toggleDrawer }) => {
 
 Header.propTypes = {
   classes: PropTypes.object,
+  toggleDrawer: PropTypes.func,
 }
 
 export default withStyles(styles)(Header)

@@ -14,7 +14,7 @@ const styles = () => ({
   },
 })
 
-const myMap = ({ classes, center, zoom }) => {
+const myMap = ({ classes, center, markers, zoom }) => {
   return (
     <div className={classes.root}>
       <GoogleMapReact
@@ -31,8 +31,9 @@ const myMap = ({ classes, center, zoom }) => {
         }
         defaultZoom={zoom || 10}
       >
-        <Marker lat={30.5} lng={-92} />
-        <Marker lat={30.2} lng={-92.2} />
+        {markers.map(({ lat, long }) => (
+          <Marker key={lat * long} lat={lat} lng={long} />
+        ))}
       </GoogleMapReact>
       <Filters />
     </div>
@@ -41,6 +42,7 @@ const myMap = ({ classes, center, zoom }) => {
 
 myMap.propTypes = {
   center: PropTypes.object,
+  markers: PropTypes.array,
   zoom: PropTypes.number,
 }
 

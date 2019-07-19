@@ -1,5 +1,5 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React from './node_modules/react'
+import PropTypes from './node_modules/prop-types'
 import {
   Drawer,
   Divider,
@@ -8,8 +8,8 @@ import {
   ListItem,
   ListItemText,
   withStyles,
-} from '@material-ui/core'
-import ChevronRightIcon from '@material-ui/icons/ChevronRight'
+} from './node_modules/@material-ui/core'
+import ChevronRightIcon from './node_modules/@material-ui/icons/ChevronRight'
 
 const styles = theme => ({
   drawer: {

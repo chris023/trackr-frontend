@@ -3,8 +3,8 @@ import PropTypes from 'prop-types'
 import { Switch, Redirect, Route } from 'react-router-dom'
 import { withStyles } from '@material-ui/core'
 
-import { Auth, Home } from './paths'
-import { AuthRoute } from './components'
+import { Assets, Auth, Home, Trackers } from './paths'
+import { AuthRoute, UserInterface } from './components'
 import { Notifications } from './util/notifications'
 
 const styles = theme => ({
@@ -21,7 +21,11 @@ const App = ({ classes }) => {
       <div className={classes.root}>
         <Switch>
           <Route path="/auth" component={Auth} />
-          <AuthRoute path="/home" component={Home} />
+          <UserInterface>
+            <AuthRoute path="/home" component={Home} />
+            <AuthRoute path="/assets" component={Assets} />
+            <AuthRoute path="/trackers" component={Trackers} />
+          </UserInterface>
           <Redirect to="/auth/login" />
         </Switch>
       </div>

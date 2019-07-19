@@ -9,21 +9,24 @@ const styles = () => ({
   root: {
     height: '100%',
   },
-  belowHeader: {},
-  viewArea: {},
+  belowHeader: {
+    display: 'flex',
+  },
+  viewArea: {
+    width: '100%',
+  },
 })
 
 const UserInterface = ({ classes, children }) => {
   const [open, setOpen] = useState(false)
 
-  const closeDrawer = () => setOpen(false)
   const toggleDrawer = () => setOpen(prev => !prev)
   return (
     <div className={classes.root}>
       <Header open={open} toggleDrawer={toggleDrawer} />
       <div className={classes.belowHeader}>
-        <Drawer open={open} closeDrawer={closeDrawer} />
-        <div className={classes.viewArea}>{children}</div>
+        <Drawer open={open} toggleDrawer={toggleDrawer} />
+        {children}
       </div>
     </div>
   )
