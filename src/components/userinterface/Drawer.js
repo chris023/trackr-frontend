@@ -54,7 +54,7 @@ const MyDrawer = ({ classes, history, open, toggleDrawer }) => {
       <Divider />
       <div className={classes.list}>
         <List>
-          {['Home', 'Assets', 'Trackers'].map(text => (
+          {['Home', 'Assets', 'Trackers', 'Files'].map(text => (
             <ListItem button onClick={goTo(text)} key={text}>
               <ListItemText primary={text} />
             </ListItem>
