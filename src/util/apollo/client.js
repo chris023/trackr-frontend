@@ -1,13 +1,14 @@
 import { InMemoryCache } from 'apollo-cache-inmemory'
 import { ApolloClient } from 'apollo-client'
-import { HttpLink } from 'apollo-link-http'
+import { createUploadLink } from 'apollo-upload-client'
 import { onError } from 'apollo-link-error'
 import { ApolloLink } from 'apollo-link'
 
 const cache = new InMemoryCache()
 
-const httpLink = new HttpLink({
-  uri: 'https://crate-tracker-backend.herokuapp.com/graphql',
+const uploadLink = createUploadLink({
+  // uri: 'https://crate-tracker-backend.herokuapp.com/graphql',
+  uri: 'http://localhost:8000/graphql',
 })
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {
@@ -20,7 +21,7 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
   }
 })
 
-const link = ApolloLink.from([errorLink, httpLink])
+const link = ApolloLink.from([errorLink, uploadLink])
 
 const client = new ApolloClient({
   link,
