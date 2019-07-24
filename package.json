@@ -9,6 +9,7 @@
     "apollo-link": "^1.2.11",
     "apollo-link-context": "^1.0.17",
     "apollo-link-error": "^1.1.10",
+    "apollo-upload-client": "^11.0.0",
     "clsx": "^1.0.4",
     "dotenv": "^8.0.0",
     "google-map-react": "^1.1.4",
