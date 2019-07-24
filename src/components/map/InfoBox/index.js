@@ -16,6 +16,7 @@ const styles = theme => ({
   content: {
     cursor: 'pointer',
     padding: theme.spacing.unit * 2,
+    zIndex: 10,
   },
 })
 
