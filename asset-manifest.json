@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/trackr-frontend/static/css/main.5ecd60fb.chunk.css",
-    "main.js": "/trackr-frontend/static/js/main.a24f39a3.chunk.js",
-    "main.js.map": "/trackr-frontend/static/js/main.a24f39a3.chunk.js.map",
+    "main.js": "/trackr-frontend/static/js/main.21dfd6d5.chunk.js",
+    "main.js.map": "/trackr-frontend/static/js/main.21dfd6d5.chunk.js.map",
     "runtime~main.js": "/trackr-frontend/static/js/runtime~main.a304a82e.js",
     "runtime~main.js.map": "/trackr-frontend/static/js/runtime~main.a304a82e.js.map",
     "static/js/2.10cb0ef2.chunk.js": "/trackr-frontend/static/js/2.10cb0ef2.chunk.js",
     "static/js/2.10cb0ef2.chunk.js.map": "/trackr-frontend/static/js/2.10cb0ef2.chunk.js.map",
     "index.html": "/trackr-frontend/index.html",
-    "precache-manifest.7ee9f5e582939c57860de2b2c91441e6.js": "/trackr-frontend/precache-manifest.7ee9f5e582939c57860de2b2c91441e6.js",
+    "precache-manifest.f54ab358edb09fdcd27881f35839c606.js": "/trackr-frontend/precache-manifest.f54ab358edb09fdcd27881f35839c606.js",
     "service-worker.js": "/trackr-frontend/service-worker.js",
     "static/css/main.5ecd60fb.chunk.css.map": "/trackr-frontend/static/css/main.5ecd60fb.chunk.css.map"
   }
