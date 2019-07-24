@@ -6,12 +6,12 @@ import { ApolloLink } from 'apollo-link'
 
 const cache = new InMemoryCache()
 
-const uploadLink = createUploadLink({
-  uri:
-    process.env.NODE_ENV === 'development'
-      ? 'http://localhost:8000/graphql'
-      : 'https://crate-tracker-backend.herokuapp.com/graphql',
-})
+// const uri = process.env.NODE_ENV === 'development'
+//   ? 'http://localhost:8000/graphql'
+//   : 'https://crate-tracker-backend.herokuapp.com/graphql'
+const uri = 'https://crate-tracker-backend.herokuapp.com/graphql'
+
+const uploadLink = createUploadLink({ uri })
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors) {
