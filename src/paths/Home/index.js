@@ -1,8 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
+import { compose } from 'recompose'
+import { withApollo } from 'react-apollo'
 import { withStyles } from '@material-ui/core'
 
 import { Map } from '../../components'
+import { GET_TRACKERS } from '../../util/apollo/queries/trackers'
 
 const styles = () => ({
   mapContainer: {
@@ -11,16 +14,26 @@ const styles = () => ({
   },
 })
 
-const Home = ({ classes }) => {
+const Home = ({ classes, client }) => {
+  const [markers, setMarkers] = useState([])
+
+  client
+    .query({ query: GET_TRACKERS })
+    .then(({ data: { trackers } }) => setMarkers(trackers))
+
   return (
     <div className={classes.mapContainer}>
-      <Map markers={[{ lat: 30.5, long: -92 }, { lat: 30.2, long: -92.2 }]} />
+      <Map markers={markers} />
     </div>
   )
 }
 
 Home.propTypes = {
   classes: PropTypes.object,
+  client: PropTypes.object,
 }
 
-export default withStyles(styles)(Home)
+export default compose(
+  withStyles(styles),
+  withApollo
+)(Home)

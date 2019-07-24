@@ -31,8 +31,8 @@ const myMap = ({ classes, center, markers, zoom }) => {
         }
         defaultZoom={zoom || 10}
       >
-        {markers.map(({ lat, long }) => (
-          <Marker key={lat * long} lat={lat} lng={long} />
+        {markers.map(({ serial, latitude, longitude }) => (
+          <Marker key={serial} lat={latitude} lng={longitude} />
         ))}
       </GoogleMapReact>
       <Filters />
